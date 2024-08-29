@@ -20,5 +20,4 @@ const productSchema = new Schema<Tproduct>({
     inventory: { type: inventorySchema, required: [true, "inventory is required"], }
 });
 
-// 3. Create a Model.
 export const productModel = model<Tproduct>('product', productSchema);

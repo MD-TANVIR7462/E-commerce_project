@@ -34,10 +34,17 @@ const updateProduct = async (_id: string, updatedProduct: Partial<Tproduct>) => 
     }
 }
 
+const searchProduct = async (searchTags: string) => {
+    const result = await productModel.find({ tags: { $in: searchTags } })
+    return result
+}
+
+
 export const produceServeices = {
     createProduct,
     getProduct,
     getSingleProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    searchProduct
 }

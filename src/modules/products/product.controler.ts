@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { request, Request, Response } from "express";
 import { productValidat } from "./product.validation";
 import { produceServeices } from "./product.services";
 import { Tproduct } from "./product.interface";
@@ -152,8 +152,28 @@ const updateProduct = async (req: Request, res: Response) => {
 
 
 
-
-
+const searchProduct = async (req: Request, res: Response) => {
+    try {
+        const searchTerm = req.query.searchTerm as string || "";
+        const result = await produceServeices.searchProduct(searchTerm);
+        res.status(200).json({
+            success: true,
+            message: "Products fetched successfully!",
+            data: result
+        });
+    } catch (error: any) {
+        console.error('Error searching products:', error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch products!",
+            errorDetails: {
+                errorType: error.name || "UnknownError",
+                message: error.message || "An error occurred while fetching products.",
+                errorPath: "searchTerm"
+            }
+        });
+    }
+};
 
 
 
@@ -162,6 +182,7 @@ export const productControler = {
     getProducts,
     getSingleProducts,
     deleteProducts,
-    updateProduct
+    updateProduct,
+    searchProduct
 
 }
