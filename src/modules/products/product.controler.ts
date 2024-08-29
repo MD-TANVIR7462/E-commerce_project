@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { productValidat } from "./product.validation";
 import { produceServeices } from "./product.services";
+import { Tproduct } from "./product.interface";
 
 const createProduct = async (req: Request, res: Response) => {
     try {
@@ -58,6 +59,8 @@ const getSingleProducts = async (req: Request, res: Response) => {
             message: "Product fetched successfully!",
             data: result
         })
+
+
     }
     catch (err: any) {
         res.status(500).json({
@@ -76,11 +79,63 @@ const deleteProducts = async (req: Request, res: Response) => {
     try {
         const { id } = req.params
         const result = await produceServeices.deleteProduct(id)
-        res.status(200).json({
-            success: true,
-            message: "Product deleted successfully!",
-            data: result
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: "Product deleted successfully!",
+                data: result.result
+               
+            })
+        }
+        else {
+            res.status(404).json({
+                success: false,
+                message: "Product not found!",
+                errorDetails: {
+                    errorType: "ProductNotFound",
+                    message: "The product with the given ID was not found.",
+                    errorPath: "id"
+                }
+            })
+        }
+    }
+    catch (err: any) {
+        res.status(500).json({
+            success: false,
+            message: "product not deletd!",
+            errorDetails: {
+                errorType: err.name || "not identify",
+                message: err.message || "please check carefuly and fixed the error it's form back-end",
+                errorPath: "no path matching please check again"
+            },
         })
+    }
+}
+
+const updateProduct = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params
+        const product:Partial<Tproduct> = req.body
+        const result = await produceServeices.updateProduct(id,product)
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: "Product updated successfully!",
+                data: result.result
+               
+            })
+        }
+        else {
+            res.status(404).json({
+                success: false,
+                message: "Product not found!",
+                errorDetails: {
+                    errorType: "ProductNotFound",
+                    message: "The product with the given ID was not found.",
+                    errorPath: "id"
+                }
+            })
+        }
     }
     catch (err: any) {
         res.status(500).json({
