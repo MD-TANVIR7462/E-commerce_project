@@ -23,11 +23,11 @@ const deleteProduct = async (_id: string) => {
         return null
     }
 }
-const updateProduct = async (_id: string,updatedProduct:Partial<Tproduct>) => {
+const updateProduct = async (_id: string, updatedProduct: Partial<Tproduct>) => {
     const isProduct = await productModel.findById(_id)
     if (isProduct) {
-        const result = await productModel.findByIdAndUpdate(_id, { $set: {updatedProduct} }, { new: true })
-        return { result }
+        const result = await productModel.findByIdAndUpdate(_id, { $set: updatedProduct }, { new: true })
+        return result
     }
     else {
         return null

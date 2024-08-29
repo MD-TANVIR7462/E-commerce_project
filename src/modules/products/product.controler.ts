@@ -84,7 +84,7 @@ const deleteProducts = async (req: Request, res: Response) => {
                 success: true,
                 message: "Product deleted successfully!",
                 data: result.result
-               
+
             })
         }
         else {
@@ -115,14 +115,14 @@ const deleteProducts = async (req: Request, res: Response) => {
 const updateProduct = async (req: Request, res: Response) => {
     try {
         const { id } = req.params
-        const product:Partial<Tproduct> = req.body
-        const result = await produceServeices.updateProduct(id,product)
+        const product: Partial<Tproduct> = req.body
+        const result = await produceServeices.updateProduct(id, product)
         if (result) {
             res.status(200).json({
                 success: true,
                 message: "Product updated successfully!",
-                data: result.result
-               
+                data: result
+
             })
         }
         else {
@@ -140,7 +140,7 @@ const updateProduct = async (req: Request, res: Response) => {
     catch (err: any) {
         res.status(500).json({
             success: false,
-            message: "product not deletd!",
+            message: "product not updated!",
             errorDetails: {
                 errorType: err.name || "not identify",
                 message: err.message || "please check carefuly and fixed the error it's form back-end",
@@ -161,6 +161,7 @@ export const productControler = {
     createProduct,
     getProducts,
     getSingleProducts,
-    deleteProducts
+    deleteProducts,
+    updateProduct
 
 }
