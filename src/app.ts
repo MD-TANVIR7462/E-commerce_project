@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express'
-import { productRoutes } from './modules/products/product.route'
+import { productRoutes } from './app/modules/products/product.route'
 const app = express()
 const cors = require('cors')
 //parser 
